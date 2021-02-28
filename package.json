@@ -1,0 +1,21 @@
+{
+  "name": "kaltura-teleprompter",
+  "version": "0.0.1",
+  "license": "AGPL-3.0",
+  "private": true,
+  "scripts": {
+    "start": "./bin/www",
+    "dev": "DEBUG=kaltura-node-template:* nodemon --inspect ./bin/www"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^8.2.0",
+    "ejs": "~2.6.1",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "kaltura-client": "^16.14.0",
+    "morgan": "~1.9.1",
+    "nodemon": "^2.0.7"
+  }
+}

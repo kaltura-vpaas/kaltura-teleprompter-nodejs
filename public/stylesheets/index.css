@@ -1,0 +1,10 @@
+#teleframe {
+  z-index: 2;
+  position: absolute;
+  margin-top: -90px;
+  width:100vw;
+  height:50vw;
+}
+body {
+  background-color: black;
+}
