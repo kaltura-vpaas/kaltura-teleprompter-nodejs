@@ -13,7 +13,7 @@
     sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox" allowfullscreen webkitallowfullscreen
     mozAllowFullScreen></iframe>
     <a id="shareBtn" 
-      href="https://www.kaltura.com/index.php/extwidget/preview/partner_id/3033241/uiconf_id/47119063/entry_id/<%=entryId%>/embed/dynamic?">
+      href="https://www.kaltura.com/index.php/extwidget/preview/partner_id/<%=partnerId%>/uiconf_id/<%=uiConfId%>/entry_id/<%=entryId%>/embed/dynamic?">
       <img src="images/share.png"></a>
  
   <script type="text/javascript">
@@ -106,6 +106,19 @@
         console.log("MSG: " +postMessageData.messageType)
       }
 
+      /* received when a trim action was requested.
+      * message.data = {entryId}
+      * should return a message where message.messageType = kea-trim-message
+      * and message.data is the (localized) text to show the user.
+      */
+      if (postMessageData.messageType === 'kea-trimming-started') {
+        e.source.postMessage({
+          messageType: 'kea-trim-message',
+          data: 'You must approve the media replacement in order to be able to watch the trimmed media'
+        }, e.origin);
+        $("#shareBtn").hide();
+      }
+
       /*
       * kea-editor-tab-loaded
       * The final notif after entry is finished processing
@@ -120,27 +133,13 @@
         e.source.postMessage(keaInitParams, e.origin);
       }
 
-
-      /* received when a trim action was requested.
-      * message.data = {entryId}
-      * should return a message where message.messageType = kea-trim-message
-      * and message.data is the (localized) text to show the user.
-      */
-      if (postMessageData.messageType === 'kea-trimming-started') {
-        e.source.postMessage({
-          messageType: 'kea-trim-message',
-          data: 'You must approve the media replacement in order to be able to watch the trimmed media'
-        }, e.origin);
-        $("#shareBtn").hide();
-      }
-
       /* received when a trim action is complete.
       * message.data = {entryId}
       * can be used to clear app cache, for example.
       */
       if (postMessageData.messageType === 'kea-trimming-done') {
         $("#shareBtn").show();
-        console.log('processing of entry with id ' + message.data?.entryId + ' is complete');
+        console.log('processing of entry with id ' + postMessageData.data?.entryId + ' is complete');
       }
 
       /* received when a clip was created.

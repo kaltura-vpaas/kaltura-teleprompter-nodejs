@@ -28,15 +28,21 @@
                 "browserNotSupportedText": "Your browser is not supported",
                 "showUploadUI": true
             });
+
+            //when upload of video is complete, redirect user to editor
             expRec.instance.addEventListener("mediaUploadEnded", function(event) {
                 window.onbeforeunload = null;
                 window.location = "edit?entryId="+event.detail.entryId;
             });
+
             var cancelled = false;
+
             expRec.instance.addEventListener("recordingStarted", function () {
                 console.log("STARTED");
                 setTimeout(function () {
                     if (!cancelled) {
+                        //call into the iframe of the teleprompter and start it
+                        //when the Express Recorder has started
                         document.getElementById("teleframe").contentWindow.start_teleprompter();
                     } else {
                         cancelled = false;
@@ -45,6 +51,8 @@
             });
             expRec.instance.addEventListener("recordingEnded", function () {
                 console.log("ENDED");
+                //call into the iframe of the teleprompter and stop it
+                //when the Express Recorder has started
                 document.getElementById("teleframe").contentWindow.stop_teleprompter();
             });
             expRec.instance.addEventListener("recordingCancelled", function () {
