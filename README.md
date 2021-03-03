@@ -33,10 +33,6 @@ You may be wondering why a Node.js app is even necessary given that 99% of this 
 
 When you first record a video with the javascript Express Recorder, it is saved to the Kaltura Cloud as a `MediaEntry` which you can access as a developer from the [KMC](https://kmc.kaltura.com/index.php/kmcng/login) once recording is finished. Each `MediaEntry` has an `entryId` which is a unique identifier for that video. The `entryId` is returned to the Express Recorder javascript object, and the browser is simply redirected to the editor `routes/edit.js` with the `entryID` in the url. There is also an option to download the video at this point, which is a built-in feature of the Express Recorder
 
-#### Editing
-
-The editor is another standalone javascript based API component. Aside from configuration variables, the editor needs two pieces of information to operate on a given video, the `entryID` that was generated in the previous step, and a `ks` to identify the user. Once editing is complete, the editor's event listeners are implemented to allow the user to download the video
-
 ### Recording and Syncing with Teleprompter
 
 When first loading the teleprompter, execution begins in [routes/index.js](https://github.com/kaltura-vpaas/kaltura-teleprompter-nodejs/blob/master/routes/index.js) and a Kaltura session is created via 
@@ -96,72 +92,6 @@ expRec.instance.addEventListener("mediaUploadEnded", function(event) {
 ```
 
 And it is the `mediaUploadEnded` listener that actually triggers the browser to redirect to the editor. Remember, you can access the uploaded MediaEntry from the [KMC](https://kmc.kaltura.com/index.php/kmcng/login) once it is uploaded.
-
-### The Editor
-
-The second screen of the teleprompter is an implementation of the [Kaltura Editor API component](https://github.com/kaltura-vpaas/kaltura-editor-app-embed) 
-
-From the previous step 
-
-```javascript
-    window.location = "edit?entryId="+event.detail.entryId;
-```
-
-will route execution to [edit.js](https://github.com/kaltura-vpaas/kaltura-teleprompter-nodejs/blob/master/routes/edit.js) which configures a Kaltura API session and routes execution to [edit.ejs](https://github.com/kaltura-vpaas/kaltura-teleprompter-nodejs/blob/master/views/edit.ejs) 
-
-The editor javascript component is a sophisticated editor capable of many different editing modes like quizzes, hotspots and more. The teleprompter only uses a single editing mode, which is clipping and trimming of videos. 
-
-The editing mode is specified in `tabs` field of the `data` dict used to configure the editor
-
-```javascript
- 'tabs': {
-            'edit': {
-              name: 'edit',
-              permissions: ['clip', 'trim'],
-              userPermissions: ['clip', 'trim'],
-              showOnlyExpandedView: true,
-              showSaveButton: true,
-              showSaveAsButton: false,
-              //preActivateMessage: 'optional: message to show before activating the tab',
-              preSaveMessage: 'Correction, please do not close editor',
-              //preSaveAsMessage: 'optional: message to show before clipping (Save As)',
-            }
-          },
-```
-
-To allow users to share their edited videos, a share button has been implemented:
-
-```ejs
-   <a id="shareBtn" 
- href="https://www.kaltura.com/index.php/extwidget/preview/partner_id/<%=partnerId%>/uiconf_id/<%=uiConfId%>/entry_id/<%=entryId%>/embed/dynamic?">
-      <img src="images/share.png"></a>
-
-  <script type="text/javascript">
-    //hide share button until we receive a notification entry is processed
-    $("#shareBtn").hide();
-```
-
-
-
-And the share button is initially hidden. If the video was shared before editing is complete, the link would not work, so you need to control when the edited video is shareable or not. 
-
-Just like the Express Recorder, the editor has an extensive event listener interface which you can read more about at [Kaltura Editor API component](https://github.com/kaltura-vpaas/kaltura-editor-app-embed) 
-
-```javascript
- 			/* received when a trim action was requested */
-      if (postMessageData.messageType === 'kea-trimming-started') {
-        $("#shareBtn").hide();
-      }
-
-			/* The final notif after entry is finished processing */
-      if (postMessageData.messageType === 'kea-editor-tab-loaded') {
-        $("#shareBtn").show();
-      }
-```
-
-The first of two events this application uses is `kea-trimming-started` which fires when the user has begun editing. Once this occurs, the sharebutton must be hidden to prevent an unusable share-link from being used. And when editing has completed,  `kea-editor-tab-loaded` is fired and it is safe to share the video again. 
-
-
 
 # How you can help (guidelines for contributors) 
 Thank you for helping Kaltura grow! If you'd like to contribute please follow these steps:

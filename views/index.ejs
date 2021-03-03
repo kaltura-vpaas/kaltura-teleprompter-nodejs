@@ -32,7 +32,7 @@
             //when upload of video is complete, redirect user to editor
             expRec.instance.addEventListener("mediaUploadEnded", function(event) {
                 window.onbeforeunload = null;
-                window.location = "edit?entryId="+event.detail.entryId;
+                window.location = "/share?entryId="+event.detail.entryId;
             });
 
             var cancelled = false;
