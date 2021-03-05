@@ -84,14 +84,20 @@ By taking advantage of Kaltura Express Recorder's [event API](https://github.com
 When the user is satisfied with their recording, they press the "Upload" button on the UI which will upload their video to the Kaltura Cloud as a `MediaEntry`  finally the upload event is triggered in the UI:
 
 ```javascript
-//when upload of video is complete, redirect user to editor
-expRec.instance.addEventListener("mediaUploadEnded", function(event) {
+   				  //when upload of video is complete, redirect user to share
+            expRec.instance.addEventListener("mediaUploadEnded", function(event) {
                 window.onbeforeunload = null;
-                window.location = "edit?entryId="+event.detail.entryId;
- });
+                window.location = "/share?entryId="+event.detail.entryId;
+            });
 ```
 
-And it is the `mediaUploadEnded` listener that actually triggers the browser to redirect to the editor. Remember, you can access the uploaded MediaEntry from the [KMC](https://kmc.kaltura.com/index.php/kmcng/login) once it is uploaded.
+And it is the `mediaUploadEnded` listener that actually triggers the browser to redirect to the share page. Remember, you can access the uploaded MediaEntry from the [KMC](https://kmc.kaltura.com/index.php/kmcng/login) once it is uploaded.
+
+### Sharing The Video
+
+The sharing page is based off https://developer.kaltura.com/player. But before the player is shown, the video must be ready for sharing. 
+
+
 
 # How you can help (guidelines for contributors) 
 Thank you for helping Kaltura grow! If you'd like to contribute please follow these steps:

@@ -21,6 +21,7 @@ router.get('/', async function (req, res, next) {
   }
 });
 
+//allow the UI to poll for whent the video is ready
 router.get('/status', async function (req, res, next) {
   var adminks = await KalturaClientFactory.getKS('', { type: kaltura.enums.SessionType.ADMIN });
   var client = await KalturaClientFactory.getClient(adminks);

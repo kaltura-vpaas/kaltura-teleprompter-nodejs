@@ -29,7 +29,7 @@
                 "showUploadUI": true
             });
 
-            //when upload of video is complete, redirect user to editor
+            //when upload of video is complete, redirect user to share
             expRec.instance.addEventListener("mediaUploadEnded", function(event) {
                 window.onbeforeunload = null;
                 window.location = "/share?entryId="+event.detail.entryId;

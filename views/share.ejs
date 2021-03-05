@@ -9,17 +9,35 @@
     <link rel="stylesheet" href="stylesheets/kaltura-theme.css">
     <style>
         .center {
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -moz-transform: translateX(-50%) translateY(-50%);
+            -webkit-transform: translateX(-50%) translateY(-50%);
+            transform: translateX(-50%) translateY(-50%);
+        }
+
+        .center>.incenter {
+            margin: auto;
+        }
+
+        #kaltura-player {
+            width: 95vw;
+            height: 53.48vw;
+            margin:auto;
+            margin-top: 2vw;
         }
     </style>
 </head>
 
 <body>
-    <img id="spinner" src="images/spinner.png" class="center">
-    <div id="kaltura-player" style="width: 95vw;height: 53.48vw;margin:auto;"></div>
-    <br>
+    <div id="spinner" class="center">
+        <h1>Preparing Video</h1>
+        <img class="incenter" src="images/spinner.png">
+    </div>
+    <div class="parent">
+        <div id="kaltura-player"> </div>
+    </div>
     <script type="text/javascript"
         src="https://cdnapisec.kaltura.com/p/<%=process.env.KALTURA_PARTNER_ID%>/embedPlaykitJs/uiconf_id/<%=process.env.KALTURA_PARTNER_ID%>/uiconf_id/<%=process.env.KALTURA_RECPLAYER_ID%>"></script>
 
@@ -42,7 +60,7 @@
                         console.error(e.message)
                     }
                 } else {
-                    setTimeout(poll,3000);
+                    setTimeout(poll, 3000);
                 }
             }).done(function () {
                 console.log("second success");
