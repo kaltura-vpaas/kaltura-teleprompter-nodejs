@@ -29,14 +29,6 @@
                 "showUploadUI": true
             });
 
-            //when upload of video is complete, redirect user to share
-            expRec.instance.addEventListener("mediaUploadEnded", function(event) {
-                window.onbeforeunload = null;
-                window.location = "/share?entryId="+event.detail.entryId;
-            });
-
-            var cancelled = false;
-
             expRec.instance.addEventListener("recordingStarted", function () {
                 console.log("STARTED");
                 setTimeout(function () {
@@ -54,7 +46,15 @@
                 //call into the iframe of the teleprompter and stop it
                 //when the Express Recorder has started
                 document.getElementById("teleframe").contentWindow.stop_teleprompter();
+            });  
+               
+            //when upload of video is complete, redirect user to share
+            expRec.instance.addEventListener("mediaUploadEnded", function(event) {
+                window.onbeforeunload = null;
+                window.location = "/share?entryId="+event.detail.entryId;
             });
+
+            var cancelled = false;
             expRec.instance.addEventListener("recordingCancelled", function () {
                 document.getElementById("teleframe").contentWindow.stop_teleprompter();
                 cancelled = true;

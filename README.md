@@ -97,9 +97,44 @@ And it is the `mediaUploadEnded` listener that actually triggers the browser to 
 
 The sharing page is based off https://developer.kaltura.com/player. But before the player is shown, the video must be ready for sharing. 
 
+In [views/share.ejs](https://github.com/kaltura-vpaas/kaltura-teleprompter-nodejs/blob/master/views/share.ejs) 
+
+```javascript
+  			function poll() {
+            $.getJSON("/status?entryId=<%=entryId%>", function (data) {
+                if (data['ready']) {
+                    //show player
+                } else {
+                    setTimeout(poll, 3000);
+                }
+            }
+        }
+        poll();
+```
+
+the `/status` method in [routes/index.js](https://github.com/kaltura-vpaas/kaltura-teleprompter-nodejs/blob/master/routes/index.js) is polled, recursively every 3 seconds until the video is ready. 
+
+And when the video is ready, it is displayed:
+
+```javascript
+ 								if (data['ready']) {
+                    $("#spinner").hide();
+                    try {
+                        var player = KalturaPlayer.setup({
+                            targetId: "kaltura-player",
+                            provider: {
+                                partnerId: <%= process.env.KALTURA_PARTNER_ID %>,
+                                uiConfId: <%= process.env.KALTURA_RECPLAYER_ID %>
+                            }
+                        });
+                        //load first entry in player
+                        player.loadMedia({ entryId: '<%= entryId%>' });
+```
+
 
 
 # How you can help (guidelines for contributors) 
+
 Thank you for helping Kaltura grow! If you'd like to contribute please follow these steps:
 * Use the repository issues tracker to report bugs or feature requests
 * Read [Contributing Code to the Kaltura Platform](https://github.com/kaltura/platform-install-packages/blob/master/doc/Contributing-to-the-Kaltura-Platform.md)
