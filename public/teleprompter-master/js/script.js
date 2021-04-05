@@ -14,6 +14,13 @@ var initPageSpeed = 35,
 		}
 	});
 
+//clean formatted text when pasting
+document.getElementById("teleprompter").addEventListener("paste", function (e) {
+	e.preventDefault();
+	var text = e.clipboardData.getData("text/plain");
+	document.execCommand("insertHTML", false, text);
+});
+
 /**
  * Config Wrapper to add Local Storage support while maintaining
  * support for previous cooking settings. All existing cookies will
