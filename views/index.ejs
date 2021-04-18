@@ -6,61 +6,62 @@
     <script src="https://www.kaltura.com/apps/expressrecorder/latest/express-recorder.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <link rel="stylesheet" href="stylesheets/index.css">
-    <link rel="stylesheet" href="stylesheets/kaltura.css">
+    
 </head>
 
 <body>
+    <%- include('github.ejs') %>
     <iframe allowtransparency="true" id="teleframe"
         style="border:none; z-index: 2;position: absolute;margin-top: -100px;width:100vw;height:50vw"
         src="teleprompter-master/index.html"></iframe>
+    
+        <div class="recorder" id="recorder"
+            style="width: 95vw;height: 53.48vw; margin-top:100px;margin-right: auto; margin-left: auto;">
+            <script type="text/javascript">
+                var expRec = Kaltura.ExpressRecorder.create('recorder', {
+                    "ks": "<%=ks%>",
+                    "serviceUrl": "<%=process.env.KALTURA_SERVICE_URL%>",
+                    "app": "Teleprompter",
+                    "playerUrl": "<%=process.env.KALTURA_SERVICE_URL%>",
+                    "conversionProfileId": null,
+                    "partnerId": "<%=process.env.KALTURA_PARTNER_ID %>",
+                    "uiConfId": "<%=process.env.KALTURA_RECPLAYER_ID %>",
+                    "browserNotSupportedText": "Your browser is not supported",
+                    "showUploadUI": true
+                });
 
-    <div class="recorder" id="recorder"
-        style="width: 95vw;height: 53.48vw; margin-top:100px;margin-right: auto; margin-left: auto;">
-        <script type="text/javascript">
-            var expRec = Kaltura.ExpressRecorder.create('recorder', {
-                "ks": "<%=ks%>",
-                "serviceUrl": "<%=process.env.KALTURA_SERVICE_URL%>",
-                "app": "Teleprompter",
-                "playerUrl": "<%=process.env.KALTURA_SERVICE_URL%>",
-                "conversionProfileId": null,
-                "partnerId": "<%=process.env.KALTURA_PARTNER_ID %>",
-                "uiConfId": "<%=process.env.KALTURA_RECPLAYER_ID %>",
-                "browserNotSupportedText": "Your browser is not supported",
-                "showUploadUI": true
-            });
+                expRec.instance.addEventListener("recordingStarted", function () {
+                    console.log("STARTED");
+                    setTimeout(function () {
+                        if (!cancelled) {
+                            //call into the iframe of the teleprompter and start it
+                            //when the Express Recorder has started
+                            document.getElementById("teleframe").contentWindow.start_teleprompter();
+                        } else {
+                            cancelled = false;
+                        }
+                    }, 3000);
+                });
+                expRec.instance.addEventListener("recordingEnded", function () {
+                    console.log("ENDED");
+                    //call into the iframe of the teleprompter and stop it
+                    //when the Express Recorder has started
+                    document.getElementById("teleframe").contentWindow.stop_teleprompter();
+                });
 
-            expRec.instance.addEventListener("recordingStarted", function () {
-                console.log("STARTED");
-                setTimeout(function () {
-                    if (!cancelled) {
-                        //call into the iframe of the teleprompter and start it
-                        //when the Express Recorder has started
-                        document.getElementById("teleframe").contentWindow.start_teleprompter();
-                    } else {
-                        cancelled = false;
-                    }
-                }, 3000);
-            });
-            expRec.instance.addEventListener("recordingEnded", function () {
-                console.log("ENDED");
-                //call into the iframe of the teleprompter and stop it
-                //when the Express Recorder has started
-                document.getElementById("teleframe").contentWindow.stop_teleprompter();
-            });  
-               
-            //when upload of video is complete, redirect user to share
-            expRec.instance.addEventListener("mediaUploadEnded", function(event) {
-                window.onbeforeunload = null;
-                window.location = "/share?entryId="+event.detail.entryId;
-            });
+                //when upload of video is complete, redirect user to share
+                expRec.instance.addEventListener("mediaUploadEnded", function (event) {
+                    window.onbeforeunload = null;
+                    window.location = "/share?entryId=" + event.detail.entryId;
+                });
 
-            var cancelled = false;
-            expRec.instance.addEventListener("recordingCancelled", function () {
-                document.getElementById("teleframe").contentWindow.stop_teleprompter();
-                cancelled = true;
-            });
-        </script>
-    </div>
+                var cancelled = false;
+                expRec.instance.addEventListener("recordingCancelled", function () {
+                    document.getElementById("teleframe").contentWindow.stop_teleprompter();
+                    cancelled = true;
+                });
+            </script>
+        </div>
 
 </body>
 

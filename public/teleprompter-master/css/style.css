@@ -111,6 +111,7 @@ article .teleprompter p:last-child
 	display: block;
 	height: 64px;
 	float: right;
+	margin-right: 40px;
 }
 .sliders label:first-child
 {
