@@ -7,6 +7,9 @@
     "start": "./bin/www",
     "dev": "DEBUG=kaltura-node-template:* nodemon --inspect ./bin/www"
   },
+  "engines": {
+    "node": ">=0.12"
+  },
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
