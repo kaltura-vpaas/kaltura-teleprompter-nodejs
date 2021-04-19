@@ -5,7 +5,7 @@ A proof of concept that overlays a teleprompter on top of the [Kaltura Express R
 https://kaltura-teleprompter.herokuapp.com/
 
 # Video Walkthrough of code:
-**http://www.kaltura.com/tiny/qag4h**
+http://www.kaltura.com/tiny/qag4h
 
 ## Requirements:
 
