@@ -21,10 +21,10 @@
 
 <body>
     <%- include('github.ejs') %>
-    <iframe allowtransparency="true" id="teleframe"
-        <iframe allowtransparency="true" id="teleframe" 
-        src="teleprompter-master/index.html"></iframe>
+        <iframe allowtransparency="true" id="teleframe" src="teleprompter-master/index.html"></iframe>
 
+        <!-- Style needs to be inline on class="recorder"-->
+        <div class="recorder" id="recorder"
             style="aspect-ratio:16/9;max-height:80vh; margin-top: 100px;margin-right: auto;margin-left: auto;">
             <script type="text/javascript">
                 var expRec = Kaltura.ExpressRecorder.create('recorder', {
