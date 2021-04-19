@@ -6,17 +6,26 @@
     <script src="https://www.kaltura.com/apps/expressrecorder/latest/express-recorder.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <link rel="stylesheet" href="stylesheets/index.css">
-    
+    <style>
+        #teleframe {
+            border: none;
+            z-index: 2;
+            position: absolute;
+            margin-top: -100px;
+            width: 102vw;
+            height: 50vw;
+            max-height: 75vh;
+        }
+    </style>
 </head>
 
 <body>
     <%- include('github.ejs') %>
     <iframe allowtransparency="true" id="teleframe"
-        style="border:none; z-index: 2;position: absolute;margin-top: -100px;width:100vw;height:50vw"
+        <iframe allowtransparency="true" id="teleframe" 
         src="teleprompter-master/index.html"></iframe>
-    
-        <div class="recorder" id="recorder"
-            style="width: 95vw;height: 53.48vw; margin-top:100px;margin-right: auto; margin-left: auto;">
+
+            style="aspect-ratio:16/9;max-height:80vh; margin-top: 100px;margin-right: auto;margin-left: auto;">
             <script type="text/javascript">
                 var expRec = Kaltura.ExpressRecorder.create('recorder', {
                     "ks": "<%=ks%>",
@@ -60,6 +69,8 @@
                     document.getElementById("teleframe").contentWindow.stop_teleprompter();
                     cancelled = true;
                 });
+
+
             </script>
         </div>
 
