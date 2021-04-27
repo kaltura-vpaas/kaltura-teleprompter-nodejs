@@ -104,7 +104,7 @@ The sharing page is based off https://developer.kaltura.com/player. But before t
 In [views/share.ejs](https://github.com/kaltura-vpaas/kaltura-teleprompter-nodejs/blob/master/views/share.ejs) 
 
 ```javascript
-  			function poll() {
+  		function poll() {
             $.getJSON("/status?entryId=<%=entryId%>", function (data) {
                 if (data['ready']) {
                     //show player
@@ -121,7 +121,7 @@ the `/status` method in [routes/index.js](https://github.com/kaltura-vpaas/kaltu
 And when the video is ready, it is displayed:
 
 ```javascript
- 								if (data['ready']) {
+ 				if (data['ready']) {
                     $("#spinner").hide();
                     try {
                         var player = KalturaPlayer.setup({
