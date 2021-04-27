@@ -88,7 +88,7 @@ By taking advantage of Kaltura Express Recorder's [event API](https://github.com
 When the user is satisfied with their recording, they press the "Upload" button on the UI which will upload their video to the Kaltura Cloud as a `MediaEntry`  finally the upload event is triggered in the UI:
 
 ```javascript
-   				  //when upload of video is complete, redirect user to share
+            //when upload of video is complete, redirect user to share
             expRec.instance.addEventListener("mediaUploadEnded", function(event) {
                 window.onbeforeunload = null;
                 window.location = "/share?entryId="+event.detail.entryId;
@@ -104,7 +104,7 @@ The sharing page is based off https://developer.kaltura.com/player. But before t
 In [views/share.ejs](https://github.com/kaltura-vpaas/kaltura-teleprompter-nodejs/blob/master/views/share.ejs) 
 
 ```javascript
-  		function poll() {
+        function poll() {
             $.getJSON("/status?entryId=<%=entryId%>", function (data) {
                 if (data['ready']) {
                     //show player
@@ -121,7 +121,7 @@ the `/status` method in [routes/index.js](https://github.com/kaltura-vpaas/kaltu
 And when the video is ready, it is displayed:
 
 ```javascript
- 				if (data['ready']) {
+                if (data['ready']) {
                     $("#spinner").hide();
                     try {
                         var player = KalturaPlayer.setup({
