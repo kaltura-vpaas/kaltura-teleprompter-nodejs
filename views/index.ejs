@@ -38,7 +38,8 @@
                         "partnerId": "<%=process.env.KALTURA_PARTNER_ID %>",
                         "uiConfId": "<%=process.env.KALTURA_RECPLAYER_ID %>",
                         "browserNotSupportedText": "Your browser is not supported",
-                        "showUploadUI": true
+                        "showUploadUI": true,
+                        "entryName": "Teleprompter-"+new Date().toString()
                     });
 
                     expRec.instance.addEventListener("recordingStarted", function () {
