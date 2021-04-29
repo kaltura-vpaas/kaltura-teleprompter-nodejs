@@ -29,7 +29,7 @@ Essentially, the teleprompter recording UI is a mashup of two projects, the java
 
 The second part of the application is an implementation of the javascript Kaltura [Editor](https://github.com/kaltura-vpaas/kaltura-editor-app-embed) API, and its event listeners are used to provide reliable download links and a confusion-free user experience.
 
-You may be wondering why a Node.js app is even necessary given that 99% of this application is written in javascript. The answer is that your API keys should be kept secret so no one can access the Kaltura API as you. These API keys are stored server-side in `.env` and time sensitive strings known as `ks` represent a session identifier for each user and are generated and passed to the UI allowing secure identification of the user.  
+You may be wondering why a Node.js app is even necessary given that 99% of this application is written in javascript. The answer is that your API keys should be kept secret so no one can access the Kaltura API other than you. These API keys are stored server-side in `.env` and time sensitive strings known as `ks` represent a session identifier for each user and are generated and passed to the UI allowing secure identification of the user.  
 
 ### Brief API Walkthrough of video from creation to sharing
 
