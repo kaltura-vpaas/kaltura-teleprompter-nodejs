@@ -29,8 +29,6 @@ Essentially, the teleprompter recording UI is a mashup of two projects, the java
 
 The second part of the application is an implementation of the javascript Kaltura [Editor](https://github.com/kaltura-vpaas/kaltura-editor-app-embed) API, and its event listeners are used to provide reliable download links and a confusion-free user experience.
 
-You may be wondering why a Node.js app is even necessary given that 99% of this application is written in javascript. The answer is that your API keys should be kept secret so no one can access the Kaltura API other than you. These API keys are stored server-side in `.env` and time sensitive strings known as `ks` represent a session identifier for each user and are generated and passed to the UI allowing secure identification of the user.  
-
 ### Brief API Walkthrough of video from creation to sharing
 
 #### Recording and uploading
@@ -83,9 +81,9 @@ When starting and stopping the recorder its event listeners are triggered and th
             });
 ```
 
-By taking advantage of Kaltura Express Recorder's [event API](https://github.com/kaltura-vpaas/express-recorder) you can create powerful, seamless integrations with the recorder as this project demonstrates.
+As you can see from this example, by taking advantage of Kaltura Express Recorder's [event API](https://github.com/kaltura-vpaas/express-recorder) you can create powerful, seamless integrations with the recorder as this project demonstrates.
 
-When the user is satisfied with their recording, they press the "Upload" button on the UI which will upload their video to the Kaltura Cloud as a `MediaEntry`  finally the upload event is triggered in the UI:
+When the user is satisfied with their recording, they press the "Upload" button on the UI which will upload their video to the Kaltura Cloud as a `MediaEntry`.   Finally, the upload event is triggered in the UI:
 
 ```javascript
             //when upload of video is complete, redirect user to share
@@ -116,7 +114,7 @@ In [views/share.ejs](https://github.com/kaltura-vpaas/kaltura-teleprompter-nodej
         poll();
 ```
 
-the `/status` method in [routes/index.js](https://github.com/kaltura-vpaas/kaltura-teleprompter-nodejs/blob/master/routes/index.js) is polled, recursively every 3 seconds until the video is ready. 
+the `/status` method in [routes/index.js](https://github.com/kaltura-vpaas/kaltura-teleprompter-nodejs/blob/master/routes/index.js) is polled recursively every 3 seconds until the video is ready. 
 
 And when the video is ready, it is displayed:
 
